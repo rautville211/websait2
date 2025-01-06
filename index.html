@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wood Block Puzzle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="profile-container">
+        <h1>Wood Block Puzzle</h1>
+        <form id="profileForm">
+            <input type="text" id="profileName" placeholder="Введите имя профиля" required>
+            <input type="password" id="profilePassword" placeholder="Введите пароль" required>
+            <button type="submit">Создать профиль</button>
+        </form>
+        <select id="profileSelect">
+            <option value="">Выберите профиль</option>
+        </select>
+        <input type="password" id="profilePasswordCheck" placeholder="Введите пароль для выбора профиля">
+        <form id="avatarForm">
+            <input type="file" id="avatarInput" accept="image/*">
+        </form>
+        <button id="startButton">Начать игру</button>
+        <form id="editProfileForm">
+            <input type="text" id="newProfileName" placeholder="Новое имя профиля">
+            <input type="password" id="newProfilePassword" placeholder="Новый пароль">
+            <button type="submit">Изменить профиль</button>
+        </form>
+        <img id="avatar" src="" alt="Аватар" style="display:none;">
+        <div id="currentProfileInfo" style="display:none;">
+            <h2 id="currentProfileName"></h2>
+            <img id="currentProfileAvatar" src="" alt="Аватар" style="display:none;">
+        </div>
+        <p>Баллы: <span id="score">0</span></p>
+        <p id="message"></p>
+        <p>Рекорд: <span id="highScore">0</span></p>
+    </div>
+    <div class="game-container">
+        <div class="grid" id="grid"></div>
+        <div class="blocks-container" id="blocksContainer"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
