@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentProfileAvatar = document.getElementById('currentProfileAvatar');
     let score = 0;
     let currentProfile = null;
-    
+
     // Загрузить профили из локального хранилища
     let profiles = JSON.parse(localStorage.getItem('profiles')) || {};
 
@@ -167,9 +167,16 @@ document.addEventListener('DOMContentLoaded', () => {
         blockElement.draggable = true;
         blockElement.addEventListener('dragstart', dragStart);
         blockElement.addEventListener('dragend', dragEnd);
+
+        // Добавление сенсорных событий
+        blockElement.addEventListener('touchstart', touchStart, { passive: true });
+        blockElement.addEventListener('touchmove', touchMove, { passive: false });
+        blockElement.addEventListener('touchend', touchEnd, { passive: true });
     });
 
     let draggedBlock = null;
+    let touchStartX = 0;
+    let touchStartY = 0;
 
     function dragStart(event) {
         draggedBlock = event.target;
@@ -187,8 +194,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 0);
     }
 
+    function touchStart(event) {
+        draggedBlock = event.target;
+        draggedBlock.classList.add('dragging');
+        touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
+    }
+
+    function touchMove(event) {
+        event.preventDefault(); // Предотвращаем прокрутку страницы
+        const touch = event.touches[0];
+        const touchX = touch.clientX;
+        const touchY = touch.clientY;
+        const deltaX = touchX - touchStartX;
+        const deltaY = touchY - touchStartY;
+
+        draggedBlock.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+    }
+
+    function touchEnd(event) {
+        draggedBlock.style.transform = '';
+        draggedBlock.classList.remove('dragging');
+        const touch = event.changedTouches[0];
+        const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+        drop({ target: dropTarget }); // Симулируем событие drop
+    }
+
     grid.addEventListener('dragover', dragOver);
     grid.addEventListener('drop', drop);
+
+    grid.addEventListener('touchmove', dragOver, { passive: false });
+    grid.addEventListener('touchend', drop);
 
     function dragOver(event) {
         event.preventDefault();
@@ -266,14 +302,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const row = Math.floor(dropIndex / 10);
         const col = dropIndex % 10;
 
-        // Проверка строк
         for (let i = 0; i < 10; i++) {
             if (!gridCells[row * 10 + i].classList.contains('filled')) {
                 return false;
             }
         }
 
-        // Проверка столбцов
         for (let i = 0; i < 10; i++) {
             if (!gridCells[i * 10 + col].classList.contains('filled')) {
                 return false;
