@@ -80,13 +80,13 @@ button:hover {
 .blocks-container {
     display: flex;
     gap: 10px;
-    visibility: hidden; /* Скрываем блоки до начала игры */
+    visibility: hidden;
 }
 
 .block {
     display: flex;
     flex-wrap: wrap;
-    width: 90px;  /* Assuming 3x3 blocks */
+    width: 90px; 
     height: 90px;
     background-color: #f9f9f9;
     border: 2px solid #ccc;
@@ -108,7 +108,6 @@ button:hover {
     margin: 1px;
 }
 
-/* Добавление разных цветов для блоков */
 .block div.filled:nth-child(1) {
     background-color: #ff6f61;
 }
@@ -129,7 +128,6 @@ button:hover {
     background-color: #92a8d1;
 }
 
-/* Перетаскивание */
 .block.dragging {
     opacity: 0.5;
 }
